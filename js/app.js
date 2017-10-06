@@ -114,20 +114,6 @@ class Player extends GameCharacter{
      * @description: Updates the player's score
      */
     update() {
-        ctx.font = 'bold 16px Comic Sans MS';
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#ffff00';
-        ctx.fillText(`Your Score: ${this.score}`, 8, 565);
-    }
-
-
-    /**
-     * @description: Draws the character on the screen based on the given X & Y positions
-     */
-    render() {
-        // Draw the player
-        super.render(this.posX, this.posY);
-
         // Check if the player collided with an enemy
         if(didPlayerCollideWithEnenmy()) {
             // Reset the player's position
@@ -158,8 +144,19 @@ class Player extends GameCharacter{
             }
         }
 
+        // Update score
+        this.updateGameScore();
+    }
 
-        // Update score section
+
+    /**
+     * @description: Draws the character on the screen based on the given X & Y positions
+     */
+    render() {
+        // Draw the player
+        super.render(this.posX, this.posY);
+
+        // Update to add the score
         this.update();
     }
 
@@ -177,25 +174,25 @@ class Player extends GameCharacter{
             case 'left':
                 if(this.allowMove((this.posX-moveX), this.posY)){
                     this.posX=(this.posX-moveX);
-                    super.render(this.posX, this.posY);
+                    this.render(this.posX, this.posY);
                 }
                 break;
             case 'up':
                 if(this.allowMove(this.posX, (this.posY-moveY))){
                     this.posY=(this.posY-moveY);
-                    super.render(this.posX, this.posY);
+                    this.render(this.posX, this.posY);
                 }
                 break;
             case 'right':
                 if(this.allowMove((this.posX+moveX), this.posY)){
                     this.posX=(this.posX+moveX);
-                    super.render(this.posX, this.posY);
+                    this.render(this.posX, this.posY);
                 }
                 break;
             case 'down':
                 if(this.allowMove(this.posX, (this.posY+moveY))){
                     this.posY=(this.posY+moveY);
-                    super.render(this.posX, this.posY);
+                    this.render(this.posX, this.posY);
                 }
                 break;
         }
@@ -230,6 +227,16 @@ class Player extends GameCharacter{
             return true;
         }
         return false;
+    }
+
+    /**
+     * @description: Updates Game score
+     */
+    updateGameScore() {
+        ctx.font = 'bold 16px Comic Sans MS';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#ffff00';
+        ctx.fillText(`Your Score: ${this.score}`, 8, 565);
     }
 
 }
