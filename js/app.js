@@ -138,7 +138,7 @@ class Player extends GameCharacter{
         }
 
         // If the player reaches the water reset the player's position & update the score
-        if(didPlayerReachWater()){
+        if(this.didPlayerReachWater()){
 
             // Drawing a star to congratulation the user
             ctx.drawImage(Resources.get('images/Star.png'), 2, -1);
@@ -216,6 +216,22 @@ class Player extends GameCharacter{
         }
         return true;
     }
+
+    /**
+     * @description: Checks if player reached water
+     */
+    didPlayerReachWater() {
+        if(this.posY <= 1) {
+            // Extra check in case the player stays in place, to avoid score increment
+            if(!this.reachedWater){
+                this.reachedWater = true;
+                this.score++;
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
 
 
@@ -253,22 +269,6 @@ function didPlayerCollideWithEnenmy() {
         }
     }
 
-    return false;
-}
-
-
-/**
- * @description: Checks if player reached water
- */
-function didPlayerReachWater() {
-    if(player.posY <= 1) {
-        // Extra check in case the player stays in place, to avoid score increment
-        if(!player.reachedWater){
-            this.reachedWater = true;
-            player.score++;
-        }
-        return true;
-    }
     return false;
 }
 
