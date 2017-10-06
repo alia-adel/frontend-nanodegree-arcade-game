@@ -68,6 +68,18 @@ class Enemy extends GameCharacter{
         if(dt > 0){
             this.speed = dt + this.speed;
         }
+
+        let updatePosX = this.posX + this.speed;
+
+        if((typeof updatePosX === 'number') && updatePosX < 500) {
+            this.posX = updatePosX;
+
+        } else {
+            if(typeof this.posY === 'number' && typeof this.initialX === 'number') {
+                this.posX = (typeof this.initialX === 'number')? this.initialX:1;
+                this.speed = this.initialSpeed;
+            }
+        }
     }
 
 
@@ -75,18 +87,7 @@ class Enemy extends GameCharacter{
      * @description: Draws the enemy on the screen
      */
     render() {
-        let updatePosX = this.posX + this.speed;
-        if((typeof updatePosX === 'number') && updatePosX < 500) {
-            this.posX = updatePosX;
-            super.render(this.posX, this.posY);
-
-        } else {
-            if(typeof this.posY === 'number' && typeof this.initialX === 'number') {
-                this.posX = this.initialX;
-                this.speed = this.initialSpeed;
-                super.render((typeof this.initialX === 'number')? this.initialX:1, this.posY);
-            }
-        }
+        super.render(this.posX, this.posY);
     }
 }
 
@@ -115,7 +116,7 @@ class Player extends GameCharacter{
      */
     update() {
         // Check if the player collided with an enemy
-        if(didPlayerCollideWithEnenmy()) {
+        if(this.didPlayerCollideWithEnenmy()) {
             // Reset the player's position
             super.resetLocation(200, 405);
 
@@ -214,6 +215,7 @@ class Player extends GameCharacter{
         return true;
     }
 
+
     /**
      * @description: Checks if player reached water
      */
@@ -229,6 +231,44 @@ class Player extends GameCharacter{
         return false;
     }
 
+
+    /**
+     * @description: Checks if the player collides with an enemy or not
+     * Rectangle intersection function refrenced from:
+     * https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection
+     */
+    didPlayerCollideWithEnenmy() {
+        let enemyDimension = {};
+
+        // Set player's sprite dimension
+        let playerDimension = {
+            x: this.posX,
+            y: this.posY,
+            width: 50,
+            height: 71
+        };
+
+        for(const enemy of allEnemies) {
+            // Set enemy;s sprite dimension
+            enemyDimension = {
+                x: enemy.posX,
+                y: enemy.posY,
+                width: 80,
+                height: 71
+            };
+
+            // Check if player dimension intersects with enemy dimension
+            if (enemyDimension.x < playerDimension.x + playerDimension.width &&
+                enemyDimension.x + enemyDimension.width > playerDimension.x &&
+                enemyDimension.y < playerDimension.y + playerDimension.height &&
+                enemyDimension.height + enemyDimension.y > playerDimension.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     /**
      * @description: Updates Game score
      */
@@ -239,44 +279,6 @@ class Player extends GameCharacter{
         ctx.fillText(`Your Score: ${this.score}`, 8, 565);
     }
 
-}
-
-
-/**
- * @description: Checks if the player collides with an enemy or not
- * Rectangle intersection function refrenced from:
- * https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection
- */
-function didPlayerCollideWithEnenmy() {
-    let enemyDimension = {};
-
-    // Set player's sprite dimension
-    playerDimension = {
-        x: player.posX,
-        y: player.posY,
-        width: 50,
-        height: 71
-    };
-
-    for(enemy of allEnemies) {
-        // Set enemy;s sprite dimension
-        enemyDimension = {
-            x: enemy.posX,
-            y: enemy.posY,
-            width: 80,
-            height: 71
-        };
-
-        // Check if player dimension intersects with enemy dimension
-        if (enemyDimension.x < playerDimension.x + playerDimension.width &&
-            enemyDimension.x + enemyDimension.width > playerDimension.x &&
-            enemyDimension.y < playerDimension.y + playerDimension.height &&
-            enemyDimension.height + enemyDimension.y > playerDimension.y) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 
