@@ -27,7 +27,7 @@ frontend-nanodegree-arcade-game
 		- `app.js` this is where the player & enemy classes with their functionalities exists.
 	- `\images` includes all the images needed for building the arcade game.
 	- `index.html` is the main html file & which you'll need to open to start playing your game.
-		- You can start playing using ![Arcade Game](https://alia-adel.github.io/frontend-nanodegree-arcade-game/)
+		- You can start playing using [Arcade Game](https://alia-adel.github.io/frontend-nanodegree-arcade-game)
 
 ## Credits
 - Player & Enemy colliding check referenced from [2D Collision Detection](https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection)
